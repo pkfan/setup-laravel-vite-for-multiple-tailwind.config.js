@@ -4,7 +4,7 @@
 If do you want to compile two or more tailwind css from different tailwind.config.js files, then you have to follow this guide.
 
 #### SCENARIO:
-I want to create two tailwind.config.js files one config for FRONTEND and second for BACKEND.
+I want to create two **tailwind.config.js** files one config for FRONTEND and second for BACKEND.
 
 How can I do it with laravel-vite, because laravel is new tool for asset compilation but I am familiar with laravel webpack.mix package?
 
@@ -17,7 +17,7 @@ let's start!!!
 
 
 ### STEP 1:
-Create two files of vite.config.js. One for frontend and second for backend
+Create two files of **vite.config.js**. One for frontend and second for backend
 
 #### file 1: vite.frontend.config.js
 ```javascript
@@ -80,7 +80,7 @@ export default defineConfig({
 });
 ```
 ### STEP 2: 
-Create two tailwind.config.js files for frontend and backend.
+Create two **tailwind.config.js** files for frontend and backend.
 
 #### file 1: frontend-tailwind.config.js
 ```javascript
@@ -113,7 +113,7 @@ module.exports = {
   }
   ```
 ### STEP 3:
-Now open package.json and add follwoing two scripts
+Now open **package.json** and add follwoing two scripts
 ```json
 "scripts": {
     "dev": "vite",
@@ -123,7 +123,7 @@ Now open package.json and add follwoing two scripts
 },
 ```
 ### STEP 4:
-Open /routes/web.php file and create follwoing two routes
+Open **/routes/web.php** file and create follwoing two routes
 ```php
 Route::get('/dashboard', function(){
     return view('backend-dashboard');
@@ -133,7 +133,7 @@ Route::get('/frontend', function(){
 });
 ```
 ### STEP 5:
-Create tow blade.php views template in /resources/views/
+Create tow **blade.php** views template in **/resources/views**
 
 #### file 1: frontend-interface.blade.php
 ```html
@@ -186,7 +186,7 @@ Create tow blade.php views template in /resources/views/
 </html>
 ```
 ### STEP 6:
-Now crate a resources/backend/dashboard/backend-tailwind.css file and paste follwoing code.
+Now crate a **/resources/backend/dashboard/backend-tailwind.css** file and paste follwoing code.
 ```css
 @tailwind base;
 @tailwind components;
@@ -196,7 +196,7 @@ Now crate a resources/backend/dashboard/backend-tailwind.css file and paste foll
     @apply bg-blue-500;
 }
 ```
-Crate one more "resources/frontend/frontend-tailwind.css" file and paste follwoing code.
+Crate one more **/resources/frontend/frontend-tailwind.css** file and paste follwoing code.
 ```css
 @tailwind base;
 @tailwind components;
@@ -207,7 +207,7 @@ Crate one more "resources/frontend/frontend-tailwind.css" file and paste follwoi
 }
 ```
 ### STEP 7:
-so we have setup a demo laravel app, just run follwoing command in terminal and run you project.
+so we have setup a demo laravel app, just run follwoing **command in terminal** and run you project.
 ```
 npm run build:backend
 npm run build:frontend
