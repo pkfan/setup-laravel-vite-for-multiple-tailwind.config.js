@@ -8,10 +8,16 @@ I want to create two **tailwind.config.js** files one config for FRONTEND and se
 
 How can I do it with laravel-vite, because laravel is new tool for asset compilation but I am familiar with laravel webpack.mix package?
 
+
 Yes, it is possible to compile separate tailwind.config.js files for each tailwind css assets.
 
 just follow follwoing steps with me to implement this in laravel project.
-I also create a detail youtube video tutorial for it.
+
+I have also created a detail youtube video tutorial for it.
+
+watch now
+
+[![Alt text](https://i.ytimg.com/vi/887_dkXohDU/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCsQqvP8o5dFE-s8lt0CQ1wQOQMKw)](https://youtu.be/887_dkXohDU)
 
 let's start!!!
 
