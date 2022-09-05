@@ -20,7 +20,7 @@ let's start!!!
 Create two files of vite.config.js. One for frontend and second for backend
 
 #### file 1: vite.frontend.config.js
-```
+```javascript
 import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
 
@@ -50,7 +50,7 @@ export default defineConfig({
 });
 ```
 #### file 2: vite.backend.config.js
-```
+```javascript
 import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
 
@@ -83,7 +83,7 @@ export default defineConfig({
 Create two tailwind.config.js files for frontend and backend.
 
 #### file 1: frontend-tailwind.config.js
-```
+```javascript
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
@@ -98,7 +98,7 @@ module.exports = {
   }
   ```
 #### file 2: backend-tailwind.config.js
-```
+```javascript
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
@@ -114,7 +114,7 @@ module.exports = {
   ```
 ### STEP 3:
 Now open package.json and add follwoing two scripts
-```
+```json
 "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -124,7 +124,7 @@ Now open package.json and add follwoing two scripts
 ```
 ### STEP 4:
 Open /routes/web.php file and create follwoing two routes
-```
+```php
 Route::get('/dashboard', function(){
     return view('backend-dashboard');
 });
@@ -136,7 +136,7 @@ Route::get('/frontend', function(){
 Create tow blade.php views template in /resources/views/
 
 #### file 1: frontend-interface.blade.php
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -161,7 +161,7 @@ Create tow blade.php views template in /resources/views/
 </html>
 ```
 #### file 2: backend-dashboard.blade.php
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,7 +187,7 @@ Create tow blade.php views template in /resources/views/
 ```
 ### STEP 6:
 Now crate a resources/backend/dashboard/backend-tailwind.css file and paste follwoing code.
-```
+```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -197,7 +197,7 @@ Now crate a resources/backend/dashboard/backend-tailwind.css file and paste foll
 }
 ```
 Crate one more "resources/frontend/frontend-tailwind.css" file and paste follwoing code.
-```
+```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -215,4 +215,4 @@ npm run build:frontend
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The software licensed under the [MIT license](https://opensource.org/licenses/MIT).
