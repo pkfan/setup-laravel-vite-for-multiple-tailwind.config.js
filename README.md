@@ -16,10 +16,10 @@ I also create a detail youtube video tutorial for it.
 let's start!!!
 
 
-STEP 1:
+### STEP 1:
 Create two files of vite.config.js. One for frontend and second for backend
 
-file 1: vite.frontend.config.js
+#### file 1: vite.frontend.config.js
 
 import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
@@ -49,7 +49,7 @@ export default defineConfig({
     },
 });
 
-file 2: vite.backend.config.js
+#### file 2: vite.backend.config.js
 
 import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
@@ -79,10 +79,10 @@ export default defineConfig({
     },
 });
 
-STEP 2: 
+### STEP 2: 
 Create two tailwind.config.js files for frontend and backend.
 
-file 1: frontend-tailwind.config.js
+#### file 1: frontend-tailwind.config.js
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -97,7 +97,7 @@ module.exports = {
     plugins: [],
   }
   
-file 2: backend-tailwind.config.js
+#### file 2: backend-tailwind.config.js
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -112,7 +112,7 @@ module.exports = {
     plugins: [],
   }
   
-STEP 3:
+### STEP 3:
 Now open package.json and add follwoing two scripts
 
 "scripts": {
@@ -122,7 +122,7 @@ Now open package.json and add follwoing two scripts
     "build:frontend": "vite build --config vite.frontend.config.js"
 },
 
-STEP 4:
+### STEP 4:
 Open /routes/web.php file and create follwoing two routes
 
 Route::get('/dashboard', function(){
@@ -132,10 +132,10 @@ Route::get('/frontend', function(){
     return view('frontend-interface');
 });
 
-STEP 5:
+### STEP 5:
 Create tow blade.php views template in /resources/views/
 
-file 1: frontend-interface.blade.php
+#### file 1: frontend-interface.blade.php
 
 <!DOCTYPE html>
 <html lang="en">
@@ -160,7 +160,7 @@ file 1: frontend-interface.blade.php
 </body>
 </html>
 
-file 2: backend-dashboard.blade.php
+#### file 2: backend-dashboard.blade.php
 
 <!DOCTYPE html>
 <html lang="en">
@@ -185,7 +185,7 @@ file 2: backend-dashboard.blade.php
 </body>
 </html>
 
-STEP 6:
+### STEP 6:
 Now crate a resources/backend/dashboard/backend-tailwind.css file and paste follwoing code.
 
 @tailwind base;
@@ -206,7 +206,7 @@ Crate one more "resources/frontend/frontend-tailwind.css" file and paste follwoi
     @apply bg-red-500;
 }
 
-STEP 7:
+### STEP 7:
 so we have setup a demo laravel app, just run follwoing command in terminal and run you project.
 
 npm run build:backend
