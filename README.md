@@ -11,7 +11,7 @@ How can I do it with laravel-vite, because laravel is new tool for asset compila
 
 Yes, it is possible to compile separate tailwind.config.js files for each tailwind css assets.
 
-just follow follwoing steps with me to implement this in laravel project.
+just follow these steps with me to implement this in laravel project.
 
 I have also created a detail youtube video tutorial for it.
 
