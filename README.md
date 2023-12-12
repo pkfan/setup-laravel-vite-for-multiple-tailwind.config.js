@@ -1,66 +1,224 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Compile multiple tailwind css from different tailwind.config.js files using laravel-vite
 
-## About Laravel
+If do you want to compile two or more tailwind css from different tailwind.config.js files, then you will have to follow this guide.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+#### SCENARIO:
+I want to create two **tailwind.config.js** files one config for FRONTEND and second for BACKEND.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+How can I do it with laravel-vite, because it is new tool for asset bundling but I am familiar with laravel mix package?
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+Yes, it is possible to compile tailwind css from different tailwind.config.js.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+just follow these steps with me to implement this in laravel project.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+I have also created a detail youtube video tutorial for it.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+watch now
 
-## Laravel Sponsors
+[![Alt text](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYYUWRwdwV69ZpjGwtZE_HQxw7TYKMfg1zYxkKeFDagE41p9UNfNQDzR0x0l_UJ3hXAG7B8oIltDTptmoD71SZxaa-oWcFGNIskd1nQM-MM403lH78OIdLYvWLNa1ighQGKOiND-4KkcwiMyAZHlqefUfqWy_zRApiVUGQikAKxYH0reb_GdCZ5y7lSA/s645/Compile%20multiple%20TAILWIND.config.js%20with%20LARAVEL%20VITE.jpg)](https://youtu.be/4BcL9C515bQ)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+let's start!!!
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### STEP 1:
+Create two files of **vite.config.js**. One for frontend and second for backend
 
-## Contributing
+#### file 1: frontend.vite.config.js
+```javascript
+import { defineConfig } from 'vite';
+import laravel, { refreshPaths } from 'laravel-vite-plugin';
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                'resources/frontend/frontend-tailwind.css',
+            ],
+            refresh: [
+                ...refreshPaths,
+            ],
+            buildDirectory: '/frontendAssets',
+        }),
+    ],
+    css: {
+        postcss: {
+            plugins: [
+                require("tailwindcss/nesting"),
+                require("tailwindcss")({
+                    config: "./frontend-tailwind.config.js",
+                }),
+                require("autoprefixer"),
+            ],
+        },
+    },
+});
+```
+#### file 2: backend.vite.config.js
+```javascript
+import { defineConfig } from 'vite';
+import laravel, { refreshPaths } from 'laravel-vite-plugin';
 
-## Code of Conduct
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                'resources/backend/dashboard/backend-tailwind.css',
+            ],
+            refresh: [
+                ...refreshPaths,
+            ],
+            buildDirectory: '/backendAssets/dashboard',
+        }),
+    ],
+    css: {
+        postcss: {
+            plugins: [
+                require("tailwindcss/nesting"),
+                require("tailwindcss")({
+                    config: "./backend-tailwind.config.js",
+                }),
+                require("autoprefixer"),
+            ],
+        },
+    },
+});
+```
+### STEP 2: 
+Create two **tailwind.config.js** files for frontend and backend.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### file 1: frontend-tailwind.config.js
+```javascript
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: [
+      "./resources/**/*.blade.php",
+      "./resources/**/*.js",
+      "./resources/**/*.vue",
+    ],
+    theme: {
+      extend: {},
+    },
+    plugins: [],
+  }
+  ```
+#### file 2: backend-tailwind.config.js
+```javascript
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+    content: [
+      "./resources/**/*.blade.php",
+      "./resources/**/*.js",
+      "./resources/**/*.vue",
+    ],
+    theme: {
+      extend: {},
+    },
+    plugins: [],
+  }
+  ```
+### STEP 3:
+Now open **package.json** and add follwoing two scripts
+```json
+"scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:backend": "vite build --config vite.backend.config.js",
+    "build:frontend": "vite build --config vite.frontend.config.js"
+},
+```
+### STEP 4:
+Open **/routes/web.php** file and create follwoing two routes
+```php
+Route::get('/dashboard', function(){
+    return view('backend-dashboard');
+});
+Route::get('/frontend', function(){
+    return view('frontend-interface');
+});
+```
+### STEP 5:
+Create two **blade.php** views template in **/resources/views**
 
-## Security Vulnerabilities
+#### file 1: frontend-interface.blade.php
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{
+        Vite::useBuildDirectory('/frontendAssets')
+    }}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    @vite('resources/frontend/frontend-tailwind.css')
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+</head>
+<body>
+    <div style="width:50%; margin:100px auto">
+        <h1>FrontEnd Interface</h1>
+        <button class="frontend" style="padding: 10px; font-size:30px">
+            red button for frontend
+        </button>
+    </div>
+</body>
+</html>
+```
+#### file 2: backend-dashboard.blade.php
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{
+        Vite::useBuildDirectory('/backendAssets/dashboard')
+    }}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    @vite('resources/backend/dashboard/backend-tailwind.css')
+
+</head>
+<body>
+    <div style="width:50%; margin:100px auto">
+        <h1>backend dashboard</h1>
+        <button class="backend" style="padding: 10px;font-size:30px">
+            blue button for backend
+        </button>
+    </div>
+</body>
+</html>
+```
+### STEP 6:
+Now create a **/resources/backend/dashboard/backend-tailwind.css** file and paste follwoing code.
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.backend{
+    @apply bg-blue-500;
+}
+```
+Crate one more **/resources/frontend/frontend-tailwind.css** file and paste follwoing code.
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.frontend{
+    @apply bg-red-500;
+}
+```
+### STEP 7:
+so we have setup a demo laravel app, just run follwoing **command in terminal** and run you project.
+```
+npm run build:backend
+npm run build:frontend
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The software licensed under the [MIT license](https://opensource.org/licenses/MIT).
