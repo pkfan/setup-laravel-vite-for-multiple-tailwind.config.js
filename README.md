@@ -1,61 +1,60 @@
 
 ## Compile multiple tailwind css from different tailwind.config.js files using laravel-vite
+#### updated to laravel 10 and fixed bugs:
 
 If do you want to compile two or more tailwind css from different tailwind.config.js files, then you will have to follow this guide.
 
 #### SCENARIO:
-I want to create two **tailwind.config.js** files one config for FRONTEND and second for BACKEND.
+I want to create two or more **tailwind.config.js** files for different roles e.g. (1) admin dashboard (2) client dashboard.
 
 How can I do it with laravel-vite, because it is new tool for asset bundling but I am familiar with laravel mix package?
 
 
 Yes, it is possible to compile tailwind css from different tailwind.config.js.
 
+
 just follow these steps with me to implement this in laravel project.
-
-I have also created a detail youtube video tutorial for it.
-
-watch now
-
-[![Alt text](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYYUWRwdwV69ZpjGwtZE_HQxw7TYKMfg1zYxkKeFDagE41p9UNfNQDzR0x0l_UJ3hXAG7B8oIltDTptmoD71SZxaa-oWcFGNIskd1nQM-MM403lH78OIdLYvWLNa1ighQGKOiND-4KkcwiMyAZHlqefUfqWy_zRApiVUGQikAKxYH0reb_GdCZ5y7lSA/s645/Compile%20multiple%20TAILWIND.config.js%20with%20LARAVEL%20VITE.jpg)](https://youtu.be/4BcL9C515bQ)
 
 let's start!!!
 
-
 ### STEP 1:
-Create two files of **vite.config.js**. One for frontend and second for backend
+install fresh laravel with jetstream 
 
-#### file 1: frontend.vite.config.js
-```javascript
-import { defineConfig } from 'vite';
-import laravel, { refreshPaths } from 'laravel-vite-plugin';
+### STEP 2:
+open (app\Providers\AppServiceProvider.php) file and add following code in [ public function boot() ] method
+```php
+<?php
 
-export default defineConfig({
-    plugins: [
-        laravel({
-            input: [
-                'resources/frontend/frontend-tailwind.css',
-            ],
-            refresh: [
-                ...refreshPaths,
-            ],
-            buildDirectory: '/frontendAssets',
-        }),
-    ],
-    css: {
-        postcss: {
-            plugins: [
-                require("tailwindcss/nesting"),
-                require("tailwindcss")({
-                    config: "./frontend-tailwind.config.js",
-                }),
-                require("autoprefixer"),
-            ],
-        },
-    },
-});
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        \Illuminate\Support\Facades\Blade::anonymousComponentNamespace('client-dashboard.components', 'client');
+        \Illuminate\Support\Facades\Blade::anonymousComponentNamespace('admin-dashboard.components', 'admin');
+    }
+}
+
 ```
-#### file 2: backend.vite.config.js
+
+### STEP 3:
+Create two files of **vite.config.js**. One for admin and second for client
+
+#### file 1: vite-admin-dashboard.config.js
 ```javascript
 import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
@@ -64,159 +63,137 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/backend/dashboard/backend-tailwind.css',
+                'resources/admin-dashboard/css/app.css',
+                'resources/admin-dashboard/js/app.js',
             ],
             refresh: [
                 ...refreshPaths,
             ],
-            buildDirectory: '/backendAssets/dashboard',
+            buildDirectory: '/admin-dashboard',
         }),
     ],
-    css: {
-        postcss: {
-            plugins: [
-                require("tailwindcss/nesting"),
-                require("tailwindcss")({
-                    config: "./backend-tailwind.config.js",
-                }),
-                require("autoprefixer"),
-            ],
-        },
-    },
 });
+
+```
+#### file 2: vite-client-dashboard.config.js
+```javascript
+import { defineConfig } from 'vite';
+import laravel, { refreshPaths } from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                'resources/client-dashboard/css/app.css',
+                'resources/client-dashboard/js/app.js',
+            ],
+            refresh: [
+                ...refreshPaths,
+            ],
+            buildDirectory: '/client-dashboard',
+        }),
+    ],
+});
+
 ```
 ### STEP 2: 
-Create two **tailwind.config.js** files for frontend and backend.
+Create two **tailwind.config.js** files, One for admin and second for client.
 
-#### file 1: frontend-tailwind.config.js
+#### file 1: tailwind-admin-dashboard.config.js
 ```javascript
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
     content: [
-      "./resources/**/*.blade.php",
-      "./resources/**/*.js",
-      "./resources/**/*.vue",
+        "./resources/views/admin-dashboard/**/*.blade.php",
     ],
+
     theme: {
-      extend: {},
+        extend: { },
     },
+
     plugins: [],
-  }
+};
+
   ```
-#### file 2: backend-tailwind.config.js
+#### file 2: tailwind-client-dashboard.config.js
 ```javascript
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
     content: [
-      "./resources/**/*.blade.php",
-      "./resources/**/*.js",
-      "./resources/**/*.vue",
+        "./resources/views/client-dashboard/**/*.blade.php",
     ],
+
     theme: {
-      extend: {},
+        extend: { },
     },
+
     plugins: [],
-  }
+};
+
   ```
 ### STEP 3:
-Now open **package.json** and add follwoing two scripts
+Now open **package.json** and add follwoing scripts
 ```json
 "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:backend": "vite build --config vite.backend.config.js",
-    "build:frontend": "vite build --config vite.frontend.config.js"
-},
+        "dev": "vite",
+        "build": "vite build",
+        "dev:admin": "vite --config vite-admin-dashboard.config.js",
+        "build:admin": "vite build --config vite-admin-dashboard.config.js",
+        "dev:client": "vite --config vite-client-dashboard.config.js",
+        "build:client": "vite build --config vite-client-dashboard.config.js"
+    },
 ```
 ### STEP 4:
 Open **/routes/web.php** file and create follwoing two routes
 ```php
-Route::get('/dashboard', function(){
-    return view('backend-dashboard');
+Route::get('/admin-dashboard1', function () {
+    return view('admin-dashboard.index');
 });
-Route::get('/frontend', function(){
-    return view('frontend-interface');
+Route::get('/client-dashboard1', function () {
+    return view('client-dashboard.index');
 });
 ```
 ### STEP 5:
-Create two **blade.php** views template in **/resources/views**
+Create OR add following **blade.php** files with folders
+```bash
+for admin:
+    1) resources\views\admin-dashboard\index.blade.php
+    2)resources\views\admin-dashboard\components\layouts\app.blade.php
+    3)resources\views\admin-dashboard\components\common\button.blade.php
 
-#### file 1: frontend-interface.blade.php
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {{
-        Vite::useBuildDirectory('/frontendAssets')
-    }}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    @vite('resources/frontend/frontend-tailwind.css')
-
-</head>
-<body>
-    <div style="width:50%; margin:100px auto">
-        <h1>FrontEnd Interface</h1>
-        <button class="frontend" style="padding: 10px; font-size:30px">
-            red button for frontend
-        </button>
-    </div>
-</body>
-</html>
+for client:
+    1) resources\views\client-dashboard\index.blade.php
+    2)resources\views\client-dashboard\components\layouts\app.blade.php
+    3)resources\views\client-dashboard\components\common\button.blade.php
 ```
-#### file 2: backend-dashboard.blade.php
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {{
-        Vite::useBuildDirectory('/backendAssets/dashboard')
-    }}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    @vite('resources/backend/dashboard/backend-tailwind.css')
 
-</head>
-<body>
-    <div style="width:50%; margin:100px auto">
-        <h1>backend dashboard</h1>
-        <button class="backend" style="padding: 10px;font-size:30px">
-            blue button for backend
-        </button>
-    </div>
-</body>
-</html>
-```
-### STEP 6:
-Now create a **/resources/backend/dashboard/backend-tailwind.css** file and paste follwoing code.
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+### STEP 5:
+Create OR add following **resources** files with folders
+```bash
+for admin:
+    1) resources\admin-dashboard\css\app.css
+    2) resources\admin-dashboard\js\app.js
+    3) resources\admin-dashboard\js\bootstrap.js [note: laravel default bootstrap.js file just copy past]
 
-.backend{
-    @apply bg-blue-500;
-}
+for client:
+    1) resources\client-dashboard\css\app.css
+    2) resources\client-dashboard\js\app.js
+    3) resources\client-dashboard\js\bootstrap.js [note: laravel default bootstrap.js file just copy past]
 ```
-Crate one more **/resources/frontend/frontend-tailwind.css** file and paste follwoing code.
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-.frontend{
-    @apply bg-red-500;
-}
-```
 ### STEP 7:
-so we have setup a demo laravel app, just run follwoing **command in terminal** and run you project.
-```
-npm run build:backend
-npm run build:frontend
+so we have setup a demo laravel app, just run follwoing **command in terminal** and run your project.
+```bash
+for admin:
+   npm run build:admin
+   npm run dev:admin
+
+for client:
+   npm run build:client
+   npm run dev:client
+
 ```
 
 ## License
