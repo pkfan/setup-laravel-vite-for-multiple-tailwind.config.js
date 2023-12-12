@@ -96,7 +96,7 @@ export default defineConfig({
 });
 
 ```
-### STEP 2: 
+### STEP 4: 
 Create two **tailwind.config.js** files, One for admin and second for client.
 
 #### file 1: tailwind-admin-dashboard.config.js
@@ -133,7 +133,7 @@ export default {
 };
 
   ```
-### STEP 3:
+### STEP 5:
 Now open **package.json** and add follwoing scripts
 ```json
 "scripts": {
@@ -145,7 +145,7 @@ Now open **package.json** and add follwoing scripts
         "build:client": "vite build --config vite-client-dashboard.config.js"
     },
 ```
-### STEP 4:
+### STEP 6:
 Open **/routes/web.php** file and create follwoing two routes
 ```php
 Route::get('/admin-dashboard1', function () {
@@ -155,7 +155,7 @@ Route::get('/client-dashboard1', function () {
     return view('client-dashboard.index');
 });
 ```
-### STEP 5:
+### STEP 7:
 Create OR add following **blade.php** files with folders
 ```bash
 for admin:
@@ -169,7 +169,7 @@ for client:
     3)resources\views\client-dashboard\components\common\button.blade.php
 ```
 
-### STEP 5:
+### STEP 8:
 Create OR add following **resources** files with folders
 ```bash
 for admin:
@@ -183,7 +183,7 @@ for client:
     3) resources\client-dashboard\js\bootstrap.js [note: laravel default bootstrap.js file just copy past]
 ```
 
-### STEP 7:
+### STEP 9:
 so we have setup a demo laravel app, just run follwoing **command in terminal** and run your project.
 ```bash
 for admin:
