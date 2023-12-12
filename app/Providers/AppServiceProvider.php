@@ -8,21 +8,18 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\Blade::anonymousComponentNamespace('client-dashboard.components', 'client');
+        \Illuminate\Support\Facades\Blade::anonymousComponentNamespace('admin-dashboard.components', 'admin');
     }
 }

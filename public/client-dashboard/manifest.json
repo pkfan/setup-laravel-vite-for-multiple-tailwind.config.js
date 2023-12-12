@@ -1,0 +1,12 @@
+{
+  "resources/client-dashboard/css/app.css": {
+    "file": "assets/app-c6f6e052.css",
+    "isEntry": true,
+    "src": "resources/client-dashboard/css/app.css"
+  },
+  "resources/client-dashboard/js/app.js": {
+    "file": "assets/app-ea2dc0e9.js",
+    "isEntry": true,
+    "src": "resources/client-dashboard/js/app.js"
+  }
+}

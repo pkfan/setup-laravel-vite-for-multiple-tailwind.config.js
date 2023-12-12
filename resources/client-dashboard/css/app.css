@@ -1,0 +1,11 @@
+@config "../../../tailwind-client-dashboard.config.js";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    body{
+        @apply bg-purple-500;
+    }
+}
+

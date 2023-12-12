@@ -1,0 +1,12 @@
+{
+  "resources/admin-dashboard/css/app.css": {
+    "file": "assets/app-c4ea7ab9.css",
+    "isEntry": true,
+    "src": "resources/admin-dashboard/css/app.css"
+  },
+  "resources/admin-dashboard/js/app.js": {
+    "file": "assets/app-0233c98a.js",
+    "isEntry": true,
+    "src": "resources/admin-dashboard/js/app.js"
+  }
+}
